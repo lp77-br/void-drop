@@ -54,17 +54,11 @@
             gap: 10px;
         }
         .brand-icon {
-            width: 28px;
-            height: 28px;
-            background: #f59e0b;
-            color: #060609;
-            font-weight: 900;
-            font-size: 12px;
+            width: 32px;
+            height: 32px;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: -0.5px;
+            object-fit: contain;
+            background: transparent;
         }
         .brand-title {
             font-size: 16px;
@@ -102,49 +96,23 @@
         .scroll-row::-webkit-scrollbar {
             display: none;
         }
-        .chip {
-            background: rgba(22, 22, 30, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #8e8e93;
-            padding: 8px 14px;
+        .chip-sub {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #666670;
+            padding: 6px 14px;
             border-radius: 12px;
             font-size: 11px;
             font-weight: 800;
             white-space: nowrap;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             flex-shrink: 0;
             transition: all 0.2s ease;
-        }
-        .chip.active {
-            background: #f59e0b;
-            color: #060609;
-            border-color: #f59e0b;
-        }
-        .chip-sub {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: #666670;
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 700;
-            white-space: nowrap;
-            cursor: pointer;
-            flex-shrink: 0;
         }
         .chip-sub.active {
             background: rgba(245, 158, 11, 0.15);
             color: #f59e0b;
             border-color: rgba(245, 158, 11, 0.4);
-        }
-        .game-thumb {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            object-fit: cover;
         }
         .cards-feed {
             display: flex;
@@ -263,22 +231,6 @@
             height: 170px;
             display: block;
         }
-        .text-code-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed rgba(255, 255, 255, 0.2);
-            padding: 18px 24px;
-            border-radius: 16px;
-            margin: 8px 0;
-            display: inline-block;
-            width: 100%;
-        }
-        .text-code-value {
-            font-size: 20px;
-            font-weight: 900;
-            color: #f59e0b;
-            letter-spacing: 1px;
-            word-break: break-all;
-        }
         .actions-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -393,12 +345,11 @@
     <div class="app-viewport">
         <header class="app-header">
             <div class="brand">
-                <div class="brand-icon">VD</div>
+                <img src="logo.png" alt="Logo" class="brand-icon" id="mainLogo" onerror="this.style.display='none'">
                 <div class="brand-title">VOID<span>DROP</span></div>
             </div>
         </header>
         <main id="screenHome" class="screen active">
-            <div class="scroll-row" id="jogosRow"></div>
             <div class="scroll-row" id="subcatsRow" style="display:none;"></div>
             <div class="cards-feed" id="feedCards"></div>
         </main>
@@ -408,7 +359,7 @@
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
                     VOLTAR
                 </button>
-                <span id="detailTagHeader" style="font-size:10px; font-weight:900; color:#f59e0b; letter-spacing:1px;"></span>
+                <span id="detailTagHeader" style="font-size:10px; font-weight:900; color:#f59e0b; letter-spacing:1px;">BRAWL STARS</span>
             </div>
             <div class="detail-header">
                 <img id="detailLogoImg" class="detail-image" src="" alt="Logo">
@@ -416,10 +367,6 @@
                 
                 <div id="qrContainer" class="qr-card">
                     <img id="detailQrImg" src="" alt="QR Code">
-                </div>
-
-                <div id="textCodeContainer" class="text-code-card" style="display:none;">
-                    <span id="detailCodeTxt" class="text-code-value"></span>
                 </div>
 
                 <div class="actions-grid" id="actionsGrid">
@@ -461,7 +408,6 @@
     </div>
     <script>
         let appData = {};
-        let jogoFiltro = "";
         let subFiltro = "todas";
         let itemSelecionado = null;
 
@@ -470,11 +416,10 @@
                 const jsonString = decodeURIComponent(escape(window.atob(jsonBase64)));
                 appData = JSON.parse(jsonString);
                 
-                if (appData.games && appData.games.length > 0) {
-                    jogoFiltro = appData.games[0].id;
+                if (appData.games && appData.games.length > 0 && appData.games[0].icon) {
+                    document.getElementById('mainLogo').src = appData.games[0].icon;
                 }
                 
-                montarJogos();
                 montarSubcategorias();
                 renderizarCards();
             } catch (e) {
@@ -482,56 +427,32 @@
             }
         }
 
-        function montarJogos() {
-            const row = document.getElementById('jogosRow');
-            row.innerHTML = '';
-
-            if (appData.games && appData.games.length === 1) {
-                row.style.display = 'none';
-                return;
-            }
-
-            if (appData.games && appData.games.length > 1) {
-                row.style.display = 'flex';
-                appData.games.forEach(game => {
-                    const btn = document.createElement('button');
-                    btn.className = 'chip ' + (jogoFiltro === game.id ? 'active' : '');
-                    btn.onclick = function() { filtrarJogo(game.id, this); };
-                    btn.innerHTML = '<img src="' + game.icon + '" class="game-thumb"> ' + game.name;
-                    row.appendChild(btn);
-                });
-            }
-        }
-
-        function filtrarJogo(jogo, el) {
-            jogoFiltro = jogo;
-            subFiltro = "todas";
-            montarJogos();
-            montarSubcategorias();
-            renderizarCards();
-        }
-
         function montarSubcategorias() {
             const row = document.getElementById('subcatsRow');
             row.innerHTML = '';
-            if (!jogoFiltro || !appData.rewards || !appData.rewards[jogoFiltro]) {
+            
+            if (!appData.rewards || !appData.rewards['brawl_stars']) {
                 row.style.display = 'none';
                 return;
             }
+            
             const subs = new Set();
-            appData.rewards[jogoFiltro].forEach(i => {
+            appData.rewards['brawl_stars'].forEach(i => {
                 if(i.subcategory) subs.add(i.subcategory);
             });
+            
             if (subs.size === 0) {
                 row.style.display = 'none';
                 return;
             }
+            
             row.style.display = 'flex';
             const btnTodas = document.createElement('button');
             btnTodas.className = 'chip-sub active';
             btnTodas.innerText = 'Todas';
             btnTodas.onclick = (e) => filtrarSub('todas', e.target);
             row.appendChild(btnTodas);
+            
             subs.forEach(s => {
                 const b = document.createElement('button');
                 b.className = 'chip-sub';
@@ -551,69 +472,40 @@
         function renderizarCards() {
             const feed = document.getElementById('feedCards');
             feed.innerHTML = '';
-            if (!appData.rewards) return;
+            if (!appData.rewards || !appData.rewards['brawl_stars']) return;
 
-            for (const jogo in appData.rewards) {
-                if (jogoFiltro !== '' && jogo !== jogoFiltro) continue;
+            appData.rewards['brawl_stars'].forEach(item => {
+                if (subFiltro !== 'todas' && item.subcategory !== subFiltro) return;
                 
-                let gameTitle = jogo;
-                if (appData.games) {
-                    const gameInfo = appData.games.find(g => g.id === jogo);
-                    if (gameInfo) gameTitle = gameInfo.name;
-                }
-
-                appData.rewards[jogo].forEach(item => {
-                    if (subFiltro !== 'todas' && item.subcategory !== subFiltro) return;
-                    const card = document.createElement('div');
-                    card.className = 'reward-card';
-                    card.onclick = () => verDetalhes(item, jogo, gameTitle);
-                    card.innerHTML = `
-                        <div class="card-left">
-                            <img class="card-icon" src="${item.logo || item.icon || 'https://via.placeholder.com/46'}">
-                            <div class="card-details">
-                                <div class="card-tags">
-                                    <span class="tag-game">${gameTitle.toUpperCase()}</span>
-                                    <span class="tag-sub">${item.subcategory}</span>
-                                </div>
-                                <span class="card-title">${item.name}</span>
+                const card = document.createElement('div');
+                card.className = 'reward-card';
+                card.onclick = () => verDetalhes(item);
+                card.innerHTML = `
+                    <div class="card-left">
+                        <img class="card-icon" src="${item.logo || item.icon || 'https://via.placeholder.com/46'}">
+                        <div class="card-details">
+                            <div class="card-tags">
+                                <span class="tag-game">BRAWL STARS</span>
+                                <span class="tag-sub">${item.subcategory}</span>
                             </div>
+                            <span class="card-title">${item.name}</span>
                         </div>
-                        <svg class="svg-icon" style="color:#444450;" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-                    `;
-                    feed.appendChild(card);
-                });
-            }
+                    </div>
+                    <svg class="svg-icon" style="color:#444450;" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                `;
+                feed.appendChild(card);
+            });
         }
 
-        function verDetalhes(item, jogo, gameTitle) {
+        function verDetalhes(item) {
             itemSelecionado = item;
-            document.getElementById('detailTagHeader').innerText = `${gameTitle.toUpperCase()} • ${item.subcategory.toUpperCase()}`;
+            document.getElementById('detailTagHeader').innerText = `BRAWL STARS • ${item.subcategory.toUpperCase()}`;
             document.getElementById('detailTitleTxt').innerText = item.name;
             document.getElementById('votosOkCount').innerText = item.ok || item.votos_ok || 0;
             document.getElementById('votosOffCount').innerText = item.off || item.votos_off || 0;
-
-            const logoImg = document.getElementById('detailLogoImg');
-            const qrContainer = document.getElementById('qrContainer');
-            const textCodeContainer = document.getElementById('textCodeContainer');
-            const btnAbrir = document.getElementById('btnAbrir');
-            const actionsGrid = document.getElementById('actionsGrid');
-
-            if (jogo === 'brawl_stars') {
-                logoImg.style.display = 'block';
-                logoImg.src = item.logo;
-                qrContainer.style.display = 'inline-block';
-                document.getElementById('detailQrImg').src = item.qr_code || item.qr;
-                textCodeContainer.style.display = 'none';
-                btnAbrir.style.display = 'flex';
-                actionsGrid.style.gridTemplateColumns = '1fr 1fr 1fr';
-            } else {
-                logoImg.style.display = 'none';
-                qrContainer.style.display = 'none';
-                textCodeContainer.style.display = 'inline-block';
-                document.getElementById('detailCodeTxt').innerText = item.link || 'CÓDIGO NÃO DISPONÍVEL';
-                btnAbrir.style.display = 'none';
-                actionsGrid.style.gridTemplateColumns = '1fr 1fr';
-            }
+            
+            document.getElementById('detailLogoImg').src = item.logo;
+            document.getElementById('detailQrImg').src = item.qr_code || item.qr;
 
             document.getElementById('screenHome').classList.remove('active');
             document.getElementById('screenDetail').classList.add('active');
