@@ -176,7 +176,7 @@
         .card-icon {
             width: 46px;
             height: 46px;
-            object-fit: contain; /* Ajustado para PNG Transparente */
+            object-fit: contain;
             background: transparent;
             border: none;
         }
@@ -240,7 +240,7 @@
         .detail-image {
             width: 68px;
             height: 68px;
-            object-fit: contain; /* Ajustado para PNG Transparente */
+            object-fit: contain;
             background: transparent;
             border: none;
             box-shadow: none;
@@ -461,17 +461,15 @@
     </div>
     <script>
         let appData = {};
-        let jogoFiltro = ""; // Agora inicia vazio para ser preenchido pela lógica
+        let jogoFiltro = "";
         let subFiltro = "todas";
         let itemSelecionado = null;
 
         function receberDadosDoAndroid(jsonBase64) {
             try {
-                // Previne quebra de caracteres no base64
                 const jsonString = decodeURIComponent(escape(window.atob(jsonBase64)));
                 appData = JSON.parse(jsonString);
                 
-                // Pega automaticamente o primeiro jogo da lista como padrão
                 if (appData.games && appData.games.length > 0) {
                     jogoFiltro = appData.games[0].id;
                 }
@@ -488,7 +486,6 @@
             const row = document.getElementById('jogosRow');
             row.innerHTML = '';
 
-            // Se existir apenas 1 jogo no JSON, a aba superior é escondida.
             if (appData.games && appData.games.length === 1) {
                 row.style.display = 'none';
                 return;
