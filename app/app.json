@@ -1,0 +1,69 @@
+{
+  "games": [
+    {
+      "id": "brawl_stars",
+      "name": "Brawl Stars",
+      "icon": "https://link-da-imagem.com/icone-brawl-stars.png"
+    },
+    {
+      "id": "roblox",
+      "name": "Roblox",
+      "icon": "https://link-da-imagem.com/icone-roblox.png"
+    }
+  ],
+  "rewards": {
+    "brawl_stars": [
+      {
+        "id": "bs_01",
+        "name": "Palhaço Troll",
+        "subcategory": "Pins",
+        "link": "https://link.brawlstars.com/?action=voucher&code=b647c71d-41a5-42c4-a10f-8d47952d82f3",
+        "logo": "https://github.com/lp77-br/void-drop/blob/main/app/brawl1-a.png?raw=true",
+        "qr_code": "https://github.com/lp77-br/void-drop/blob/main/app/brawl1.png?raw=true",
+        "ok": 0,
+        "off": 0
+      },
+      {
+        "id": "bs_02",
+        "name": "Spike Ok",
+        "subcategory": "Logo",
+        "link": "https://link.brawlstars.com/pt/?action=voucher&code=da19cd17-68af-4ed9-8671-b974a3a73356",
+        "logo": "https://github.com/lp77-br/void-drop/blob/main/app/brawl2.png?raw=true",
+        "qr_code": "https://github.com/lp77-br/void-drop/blob/main/app/brawl2-a.png?raw=true",
+        "ok": 0,
+        "off": 0
+      },
+      {
+        "id": "bs_02",
+        "name": "Emoji Estranho",
+        "subcategory": "Pins",
+        "link": "https://link.brawlstars.com/pt/?action=voucher&code=cbd9bc12-423e-4a32-be45-590b0ebc52ad",
+        "logo": "https://github.com/lp77-br/void-drop/blob/main/app/brawl3.png?raw=true",
+        "qr_code": "https://github.com/lp77-br/void-drop/blob/main/app/brawl3-a.png?raw=true",
+        "ok": 0,
+        "off": 0
+      }
+    ],
+    "roblox": [
+      {
+        "id": "rb_01",
+        "name": "2x XP (20 Minutos)",
+        "subcategory": "Blox Fruits",
+        "link": "",
+        "logo": "https://link-da-imagem.com/logo-bloxfruits.png",
+        "qr_code": "https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https://roblox.com/redeem?code=XP20",
+        "ok": 45,
+        "off": 1
+      },
+      {
+        "id": "rb_02",
+        "name": "100.000 Beli",
+        "subcategory": "King Legacy",
+        "link": "BELI100K",
+        "logo": "https://link-da-imagem.com/logo-kinglegacy.png",
+        "ok": 9,
+        "off": 3
+      }
+    ]
+  }
+}
