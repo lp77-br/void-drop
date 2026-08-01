@@ -3,7 +3,7 @@
     {
       "id": "brawl_stars",
       "name": "Brawl Stars",
-      "icon": "https://github.com/lp77-br/void-drop/blob/main/app/brawl-logo.png?raw=true"
+      "icon": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl-logo.png"
     }
   ],
   "rewards": {
@@ -13,8 +13,8 @@
         "name": "Palhaço Troll",
         "subcategory": "Pins",
         "link": "https://link.brawlstars.com/?action=voucher&code=b647c71d-41a5-42c4-a10f-8d47952d82f3",
-        "logo": "https://github.com/lp77-br/void-drop/blob/main/app/brawl1-a.png?raw=true",
-        "qr_code": "https://github.com/lp77-br/void-drop/blob/main/app/brawl1.png?raw=true",
+        "logo": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl1-a.png",
+        "qr_code": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl1.png",
         "ok": 0,
         "off": 0
       },
@@ -23,8 +23,8 @@
         "name": "Spike Ok",
         "subcategory": "Logo",
         "link": "https://link.brawlstars.com/pt/?action=voucher&code=da19cd17-68af-4ed9-8671-b974a3a73356",
-        "logo": "https://github.com/lp77-br/void-drop/blob/main/app/brawl2-a.png?raw=true",
-        "qr_code": "https://github.com/lp77-br/void-drop/blob/main/app/brawl2.png?raw=true",
+        "logo": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl2-a.png",
+        "qr_code": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl2.png",
         "ok": 0,
         "off": 0
       },
@@ -33,8 +33,8 @@
         "name": "Emoji Estranho",
         "subcategory": "Pins",
         "link": "https://link.brawlstars.com/pt/?action=voucher&code=cbd9bc12-423e-4a32-be45-590b0ebc52ad",
-        "logo": "https://github.com/lp77-br/void-drop/blob/main/app/brawl3-a.png?raw=true",
-        "qr_code": "https://github.com/lp77-br/void-drop/blob/main/app/brawl3.png?raw=true",
+        "logo": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl3-a.png",
+        "qr_code": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl3.png",
         "ok": 0,
         "off": 0
       },
@@ -43,8 +43,8 @@
         "name": "Planeta da Pizza",
         "subcategory": "Logo",
         "link": "https://link.brawlstars.com/pt/?action=voucher&code=8142f715-a879-4d19-9af3-fa49e72ef59a",
-        "logo": "https://github.com/lp77-br/void-drop/blob/main/app/brawl4-a.png?raw=true",
-        "qr_code": "https://github.com/lp77-br/void-drop/blob/main/app/brawl4.png?raw=true",
+        "logo": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl4-a.png",
+        "qr_code": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl4.png",
         "ok": 0,
         "off": 0
       }
