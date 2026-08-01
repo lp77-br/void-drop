@@ -1,4 +1,4 @@
-<!-- Contém direitos autorais - Cópia ou redistribuição proibidos. -->
+<!-- Contém direitos autorais - Cópia ou redistribuição proibidos -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -176,10 +176,9 @@
         .card-icon {
             width: 46px;
             height: 46px;
-            border-radius: 12px;
-            object-fit: cover;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: #121218;
+            object-fit: contain; /* Ajustado para PNG Transparente */
+            background: transparent;
+            border: none;
         }
         .card-details {
             display: flex;
@@ -241,10 +240,10 @@
         .detail-image {
             width: 68px;
             height: 68px;
-            border-radius: 18px;
-            object-fit: cover;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            object-fit: contain; /* Ajustado para PNG Transparente */
+            background: transparent;
+            border: none;
+            box-shadow: none;
         }
         .detail-name {
             font-size: 18px;
@@ -462,14 +461,21 @@
     </div>
     <script>
         let appData = {};
-        let jogoFiltro = "todos";
+        let jogoFiltro = ""; // Agora inicia vazio para ser preenchido pela lógica
         let subFiltro = "todas";
         let itemSelecionado = null;
 
         function receberDadosDoAndroid(jsonBase64) {
             try {
-                const jsonString = atob(jsonBase64);
+                // Previne quebra de caracteres no base64
+                const jsonString = decodeURIComponent(escape(window.atob(jsonBase64)));
                 appData = JSON.parse(jsonString);
+                
+                // Pega automaticamente o primeiro jogo da lista como padrão
+                if (appData.games && appData.games.length > 0) {
+                    jogoFiltro = appData.games[0].id;
+                }
+                
                 montarJogos();
                 montarSubcategorias();
                 renderizarCards();
@@ -482,13 +488,14 @@
             const row = document.getElementById('jogosRow');
             row.innerHTML = '';
 
-            const btnTodos = document.createElement('button');
-            btnTodos.className = 'chip ' + (jogoFiltro === 'todos' ? 'active' : '');
-            btnTodos.onclick = function() { filtrarJogo('todos', this); };
-            btnTodos.innerHTML = '<svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg> Todos';
-            row.appendChild(btnTodos);
+            // Se existir apenas 1 jogo no JSON, a aba superior é escondida.
+            if (appData.games && appData.games.length === 1) {
+                row.style.display = 'none';
+                return;
+            }
 
-            if (appData.games) {
+            if (appData.games && appData.games.length > 1) {
+                row.style.display = 'flex';
                 appData.games.forEach(game => {
                     const btn = document.createElement('button');
                     btn.className = 'chip ' + (jogoFiltro === game.id ? 'active' : '');
@@ -510,7 +517,7 @@
         function montarSubcategorias() {
             const row = document.getElementById('subcatsRow');
             row.innerHTML = '';
-            if (jogoFiltro === 'todos' || !appData.rewards || !appData.rewards[jogoFiltro]) {
+            if (!jogoFiltro || !appData.rewards || !appData.rewards[jogoFiltro]) {
                 row.style.display = 'none';
                 return;
             }
@@ -550,7 +557,7 @@
             if (!appData.rewards) return;
 
             for (const jogo in appData.rewards) {
-                if (jogoFiltro !== 'todos' && jogo !== jogoFiltro) continue;
+                if (jogoFiltro !== '' && jogo !== jogoFiltro) continue;
                 
                 let gameTitle = jogo;
                 if (appData.games) {
