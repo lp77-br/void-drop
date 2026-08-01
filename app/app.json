@@ -4,11 +4,6 @@
       "id": "brawl_stars",
       "name": "Brawl Stars",
       "icon": "https://github.com/lp77-br/void-drop/blob/main/app/brawl-logo.png?raw=true"
-    },
-    {
-      "id": "roblox",
-      "name": "Roblox",
-      "icon": "https://github.com/lp77-br/void-drop/blob/main/app/roblox-logo.png?raw=true"
     }
   ],
   "rewards": {
@@ -52,27 +47,6 @@
         "qr_code": "https://github.com/lp77-br/void-drop/blob/main/app/brawl4.png?raw=true",
         "ok": 0,
         "off": 0
-      }
-    ],
-    "roblox": [
-      {
-        "id": "rb_01",
-        "name": "2x XP (20 Minutos)",
-        "subcategory": "Blox Fruits",
-        "link": "TESTE",
-        "logo": "https://link-da-imagem.com/logo-bloxfruits.png",
-        "qr_code": "https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https://roblox.com/redeem?code=XP20",
-        "ok": 45,
-        "off": 1
-      },
-      {
-        "id": "rb_02",
-        "name": "100.000 Beli",
-        "subcategory": "King Legacy",
-        "link": "BELI100K",
-        "logo": "https://link-da-imagem.com/logo-kinglegacy.png",
-        "ok": 9,
-        "off": 3
       }
     ]
   }
