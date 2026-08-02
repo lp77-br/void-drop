@@ -313,22 +313,20 @@
             cursor: pointer;
             display: flex;
             align-items: stretch;
-            border: none;
+            border: 1px solid transparent;
             overflow: hidden;
             padding: 0;
-            transition: transform 0.1s ease;
+            transition: all 0.2s ease;
         }
         .btn-v:active {
             transform: scale(0.96);
         }
         .btn-v.ok {
             background: rgba(52, 199, 89, 0.12);
-            border: 1px solid rgba(52, 199, 89, 0.35);
             color: #34c759;
         }
         .btn-v.off {
             background: rgba(255, 59, 48, 0.12);
-            border: 1px solid rgba(255, 59, 48, 0.35);
             color: #ff3b30;
         }
         .vote-action {
@@ -336,23 +334,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 12px;
-        }
-        .vote-count {
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        .btn-v.ok .vote-count {
-            border-left: 1px solid rgba(52, 199, 89, 0.35);
-            background: rgba(52, 199, 89, 0.08);
-        }
-        .btn-v.off .vote-count {
-            border-left: 1px solid rgba(255, 59, 48, 0.35);
-            background: rgba(255, 59, 48, 0.08);
+            gap: 8px;
+            padding: 14px;
         }
         .app-footer {
             margin-top: 20px;
@@ -383,8 +366,8 @@
             transform: scale(0.97);
         }
         .svg-icon {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             fill: currentColor;
         }
     </style>
@@ -440,19 +423,17 @@
                 <div class="vote-block">
                     <span class="vote-title">STATUS DA RECOMPENSA</span>
                     <div class="vote-buttons">
-                        <button class="btn-v ok" onclick="votar('ok')">
+                        <button class="btn-v ok" id="btnVoteOk" onclick="votar('ok')">
                             <div class="vote-action">
                                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 1.98-1.68l1.53-8.5A2 2 0 0 0 19.82 9H14zM2 9h4v12H2z"/></svg>
                                 FUNCIONOU
                             </div>
-                            <div class="vote-count" id="votosOkCount">0</div>
                         </button>
-                        <button class="btn-v off" onclick="votar('off')">
+                        <button class="btn-v off" id="btnVoteOff" onclick="votar('off')">
                             <div class="vote-action">
                                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-1.98 1.68l-1.53 8.5A2 2 0 0 0 4.18 15H10zm12-6h-4V2h4v7z"/></svg>
                                 EXPIRADO
                             </div>
-                            <div class="vote-count" id="votosOffCount">0</div>
                         </button>
                     </div>
                 </div>
@@ -572,11 +553,39 @@
             itemSelecionado = item;
             document.getElementById('detailTagHeader').innerText = `BRAWL STARS • ${item.subcategory.toUpperCase()}`;
             document.getElementById('detailTitleTxt').innerText = item.name;
-            document.getElementById('votosOkCount').innerText = item.ok || item.votos_ok || 0;
-            document.getElementById('votosOffCount').innerText = item.off || item.votos_off || 0;
             
             document.getElementById('detailLogoImg').src = item.logo;
             document.getElementById('detailQrImg').src = item.qr_code || item.qr;
+
+            // Configuração dos botões de voto baseado no salvamento local
+            const btnOk = document.getElementById('btnVoteOk');
+            const btnOff = document.getElementById('btnVoteOff');
+            
+            // Reseta visual primeiro
+            btnOk.style.opacity = '1';
+            btnOff.style.opacity = '1';
+            btnOk.style.border = '1px solid rgba(52, 199, 89, 0.35)';
+            btnOff.style.border = '1px solid rgba(255, 59, 48, 0.35)';
+            btnOk.style.background = 'rgba(52, 199, 89, 0.12)';
+            btnOff.style.background = 'rgba(255, 59, 48, 0.12)';
+            btnOk.style.pointerEvents = 'auto';
+            btnOff.style.pointerEvents = 'auto';
+            
+            // Checa se já votou nesse item
+            const votoSalvo = localStorage.getItem('void_vote_' + item.id);
+            if (votoSalvo === 'ok') {
+                btnOk.style.border = '2px solid #34c759';
+                btnOk.style.background = 'rgba(52, 199, 89, 0.25)';
+                btnOff.style.opacity = '0.3';
+                btnOk.style.pointerEvents = 'none';
+                btnOff.style.pointerEvents = 'none';
+            } else if (votoSalvo === 'off') {
+                btnOff.style.border = '2px solid #ff3b30';
+                btnOff.style.background = 'rgba(255, 59, 48, 0.25)';
+                btnOk.style.opacity = '0.3';
+                btnOk.style.pointerEvents = 'none';
+                btnOff.style.pointerEvents = 'none';
+            }
 
             document.getElementById('screenHome').classList.remove('active');
             document.getElementById('screenDetail').classList.add('active');
@@ -623,9 +632,22 @@
 
         function votar(tipo) {
             if (itemSelecionado && itemSelecionado.id) {
-                if (window.AndroidBridge) window.AndroidBridge.votar(itemSelecionado.id, tipo);
-                const countElem = tipo === 'ok' ? document.getElementById('votosOkCount') : document.getElementById('votosOffCount');
-                countElem.innerText = parseInt(countElem.innerText) + 1;
+                // Checa trava local para evitar spam duplo
+                const jaVotou = localStorage.getItem('void_vote_' + itemSelecionado.id);
+                if (jaVotou) {
+                    return; // Se já tiver voto, apenas ignora
+                }
+
+                // Dispara comunicação pro Cloudflare via Java
+                if (window.AndroidBridge) {
+                    window.AndroidBridge.votar(itemSelecionado.id, tipo);
+                }
+                
+                // Trava o voto localmente
+                localStorage.setItem('void_vote_' + itemSelecionado.id, tipo);
+                
+                // Recarrega os estilos dos botões pra mostrar a seleção na hora
+                verDetalhes(itemSelecionado);
             }
         }
     </script>
