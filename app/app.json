@@ -16,7 +16,7 @@
         "logo": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl1-a.png",
         "qr_code": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl1.png",
         "ok": 5,
-        "off": 0
+        "off": 1
       },
       {
         "id": "bs_02",
