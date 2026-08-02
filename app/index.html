@@ -28,6 +28,19 @@
             align-items: center;
             background-image: radial-gradient(circle at 50% 0, #1c1508 0%, #060609 75%);
         }
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #060609;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
         .app-viewport {
             width: 100%;
             max-width: 420px;
@@ -119,6 +132,7 @@
             flex-direction: column;
             gap: 10px;
             margin-top: 6px;
+            flex: 1;
         }
         .reward-card {
             background: rgba(18, 18, 26, 0.7);
@@ -130,7 +144,13 @@
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            transition: transform 0.1s ease, background 0.2s ease;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: transform 0.4s ease, opacity 0.4s ease, background 0.2s ease;
+        }
+        .reward-card.loaded {
+            opacity: 1;
+            transform: translateY(0);
         }
         .reward-card:active {
             transform: scale(0.98);
@@ -334,6 +354,45 @@
             border-left: 1px solid rgba(255, 59, 48, 0.35);
             background: rgba(255, 59, 48, 0.08);
         }
+        .app-footer {
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-align: center;
+        }
+        .footer-main {
+            font-size: 12px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .footer-sub {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #8e8e93;
+        }
+        .btn-discord-click {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #f59e0b;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+        .btn-discord-click:active {
+            transform: scale(0.9);
+        }
         .svg-icon {
             width: 14px;
             height: 14px;
@@ -342,6 +401,9 @@
     </style>
 </head>
 <body>
+    <div id="loadingScreen">
+        <img src="load.gif" alt="Carregando" style="width: 40px; height: 40px; opacity: 0.8;">
+    </div>
     <div class="app-viewport">
         <header class="app-header">
             <div class="brand">
@@ -352,6 +414,16 @@
         <main id="screenHome" class="screen active">
             <div class="scroll-row" id="subcatsRow" style="display:none;"></div>
             <div class="cards-feed" id="feedCards"></div>
+            <footer class="app-footer">
+                <span class="footer-main">Feito por VoidHub</span>
+                <div class="footer-sub">
+                    <span>Clique aqui para acessar o discord</span>
+                    <span>/</span>
+                    <button class="btn-discord-click" onclick="abrirDiscord()">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M13.23 2.76c-.4-.15-.85.05-1 .45l-3.3 9.9c-.1.3-.02.65.2.9l2.3 2.3c.35.35.9.35 1.25 0l4.2-4.2c.3-.3.3-.8 0-1.1l-3.3-3.3-.35-.35z"/></svg>
+                    </button>
+                </div>
+            </footer>
         </main>
         <div id="screenDetail" class="screen">
             <div class="top-nav">
@@ -364,11 +436,9 @@
             <div class="detail-header">
                 <img id="detailLogoImg" class="detail-image" src="" alt="Logo">
                 <h2 id="detailTitleTxt" class="detail-name"></h2>
-                
                 <div id="qrContainer" class="qr-card">
                     <img id="detailQrImg" src="" alt="QR Code">
                 </div>
-
                 <div class="actions-grid" id="actionsGrid">
                     <button id="btnAbrir" class="btn-act primary" onclick="acaoAbrir()">
                         <svg class="svg-icon" viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
@@ -411,6 +481,19 @@
         let subFiltro = "todas";
         let itemSelecionado = null;
 
+        let loadTimeout = setTimeout(() => {
+            esconderLoading();
+        }, 10000);
+
+        function esconderLoading() {
+            clearTimeout(loadTimeout);
+            const loader = document.getElementById('loadingScreen');
+            if(loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }
+        }
+
         function receberDadosDoAndroid(jsonBase64) {
             try {
                 const jsonString = decodeURIComponent(escape(window.atob(jsonBase64)));
@@ -422,8 +505,10 @@
                 
                 montarSubcategorias();
                 renderizarCards();
+                esconderLoading();
             } catch (e) {
                 console.error(e);
+                esconderLoading();
             }
         }
 
@@ -480,9 +565,12 @@
                 const card = document.createElement('div');
                 card.className = 'reward-card';
                 card.onclick = () => verDetalhes(item);
+                
+                const imgSrc = item.logo || item.icon || 'https://via.placeholder.com/46';
+                
                 card.innerHTML = `
                     <div class="card-left">
-                        <img class="card-icon" src="${item.logo || item.icon || 'https://via.placeholder.com/46'}">
+                        <img class="card-icon" src="${imgSrc}" onload="this.closest('.reward-card').classList.add('loaded')" onerror="this.closest('.reward-card').classList.add('loaded')">
                         <div class="card-details">
                             <div class="card-tags">
                                 <span class="tag-game">BRAWL STARS</span>
@@ -514,6 +602,21 @@
         function voltarHome() {
             document.getElementById('screenDetail').classList.remove('active');
             document.getElementById('screenHome').classList.add('active');
+        }
+
+        function checarVoltar() {
+            const detail = document.getElementById('screenDetail');
+            if (detail.classList.contains('active')) {
+                voltarHome();
+                return "true";
+            }
+            return "false";
+        }
+        
+        function abrirDiscord() {
+            const link = (appData && appData.discord_link) ? appData.discord_link : "https://discord.gg/anajUFDRR5";
+            if (window.AndroidBridge) {
+                window.AndroidBridge.abrirLink(link);
         }
 
         function acaoAbrir() {
