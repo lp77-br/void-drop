@@ -28,8 +28,11 @@
         "link": "https://link.brawlstars.com/pt/?action=voucher&code=da19cd17-68af-4ed9-8671-b974a3a73356",
         "logo": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl2-a.png",
         "qr_code": "https://cdn.jsdelivr.net/gh/lp77-br/void-drop@main/app/brawl2.png",
-        "ok": 0,
-        "off": 0
+        "ok": 1,
+        "off": 0,
+        "votes": {
+          "c69ba03f71a08525": "ok"
+        }
       },
       {
         "id": "bs_03",
