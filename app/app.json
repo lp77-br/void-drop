@@ -1,5 +1,4 @@
 {
-  "discord_link": "https://discord.gg/anajUFDRR5"
   "games": [
     {
       "id": "brawl_stars",
@@ -49,6 +48,7 @@
         "ok": 0,
         "off": 0
       }
-    ]
+    ],
+    "discord_link": "https://discord.gg/anajUFDRR5"
   }
 }
