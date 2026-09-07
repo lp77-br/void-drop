@@ -1,3 +1,6 @@
+# Projeto descontinuado
+Este projeto foi descontinuado, portanto, agora você pode usar o HTML ou quaisquer arquivos sem pracisar comprir a licensa.
+
 <!-- Contém direitos autorais - Cópia ou redistribuição proibidos -->
 
 # ⚡ Void Drop — Brawl Stars Rewards
