@@ -1,7 +1,7 @@
 # Projeto descontinuado
 Este projeto foi descontinuado, portanto, agora você pode usar o HTML ou quaisquer arquivos sem pracisar comprir a licensa.
 ㅤ
-ㅤ
+---
 ㅤ
 
 
