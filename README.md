@@ -1,6 +1,6 @@
 # Projeto descontinuado
 Este projeto foi descontinuado, portanto, agora você pode usar o HTML ou quaisquer arquivos sem pracisar comprir a licensa.
-ㅤ
+
 ---
 ㅤ
 
@@ -28,7 +28,7 @@ O **Void Drop** é o aplicativo oficial da **VoidHub** desenvolvido para central
 
 Acompanhe as últimas atualizações, envie sugestões e receba notificações de novos drops:
 
-- **Discord Oficial:** [Acessar Servidor](https://discord.gg/voiddrop)
+- **Discord Oficial:** [descontinuado](https://discord.gg/anajUFDRR5)
 
 ---
 
