@@ -1,6 +1,6 @@
 # Projeto descontinuado
 Este projeto foi descontinuado, portanto, agora você pode usar o HTML ou quaisquer arquivos sem pracisar comprir a licensa.
-Server: https://discord.gg/anajUFDRR5
+https://discord.gg/anajUFDRR5
 
 ---
 ㅤ
