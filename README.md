@@ -1,6 +1,8 @@
 # Projeto descontinuado
-Este projeto foi descontinuado, portanto, agora você pode usar o HTML ou quaisquer arquivos sem pracisar comprir a licensa.
+Este projeto foi descontinuado, portanto, agora você pode usar o HTML ou quaisquer arquivos sem precisar comprir a licensa.
+
 https://discord.gg/anajUFDRR5
+
 
 ---
 ㅤ
